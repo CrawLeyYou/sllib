@@ -1,14 +1,14 @@
 const axios = require('axios')
 const cfg = require('../config.json').API
 
-const CheckNRAlias = async (key, noreplyAlias) => new Promise(async (resolve, reject) => {
+const CheckAlias = async (key, alias) => new Promise(async (resolve, reject) => {
     await axios.get(cfg.endpoint + "v2/aliases?page_id=0", {
         headers: {
             Authentication: key
         }
     }).then(result => {
         result.data.aliases.forEach((data, n) => {
-            if (data.email.includes(noreplyAlias) ?? undefined !== undefined) {
+            if (data.email.includes(alias) ?? undefined !== undefined) {
                 resolve(result.data.aliases[n])
             }
         })
@@ -39,6 +39,19 @@ const GetDomainSignedSuffix = async (key, domain) => new Promise(async (resolve,
         })
         reject(false)
     })
+})
+
+const AddReverseAlias = async (key, aliasid, contact) => new Promise(async (resolve, reject) => {
+    await axios.post(cfg.endpoint + `aliases/${aliasid}/contacts`, {
+        contact: contact
+    }, {
+        headers: {
+            Authentication: key,
+            'Content-Type': 'application/json'
+        }
+    }).then(result => {
+        resolve(result.data)
+    }).catch(err => reject(false))
 })
 
 const CheckNoReplyMail = async (key, hotmail) => new Promise(async (resolve, reject) => {
@@ -85,10 +98,11 @@ const CreateAlias = async (key, suffix, mail, noreplyAlias, note) => new Promise
 })
 
 module.exports = {
-    CheckNRAlias,
+    CheckAlias,
     ToggleAlias,
     CheckNoReplyMail,
     AddMailBox,
     GetDomainSignedSuffix,
-    CreateAlias
+    CreateAlias,
+    AddReverseAlias
 }
