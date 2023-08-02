@@ -54,7 +54,7 @@ const AddReverseAlias = async (key, aliasid, contact) => new Promise(async (reso
     }).catch(err => reject(false))
 })
 
-const CheckNoReplyMail = async (key, hotmail) => new Promise(async (resolve, reject) => {
+const CheckMailBox = async (key, hotmail) => new Promise(async (resolve, reject) => {
     await axios.get(cfg.endpoint + `v2/mailboxes`, {
         headers: {
             Authentication: key
@@ -100,7 +100,7 @@ const CreateAlias = async (key, suffix, mail, noreplyAlias, note) => new Promise
 module.exports = {
     CheckAlias,
     ToggleAlias,
-    CheckNoReplyMail,
+    CheckMailBox,
     AddMailBox,
     GetDomainSignedSuffix,
     CreateAlias,
