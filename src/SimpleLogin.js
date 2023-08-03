@@ -78,7 +78,7 @@ const AddMailBox = async (key, hotmail) => new Promise(async (resolve, reject) =
         }
     }).then(result => {
         resolve(result.data)
-    })
+    }).catch(err => reject(false))
 })
 
 const CreateAlias = async (key, suffix, mail, noreplyAlias, note) => new Promise(async (resolve, reject) => {
