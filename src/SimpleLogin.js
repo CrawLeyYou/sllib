@@ -33,7 +33,7 @@ const GetDomainSignedSuffix = async (key, domain) => new Promise(async (resolve,
         }
     }).then(result => {
         result.data.suffixes.forEach((data, n) => {
-            if (data.suffix.includes(domain)?? undefined !== undefined) {
+            if (data.suffix.includes(domain) ?? undefined !== undefined) {
                 resolve(result.data.suffixes[n])
             }
         })
@@ -97,20 +97,20 @@ const CreateAlias = async (key, suffix, mail, noreplyAlias, note) => new Promise
     }).catch(err => reject(false))
 })
 
-const DeleteReverseAlias = async(contactid) => new Promise(async (resolve, reject) => {
+const DeleteReverseAlias = async (key, contactid) => new Promise(async (resolve, reject) => {
     await axios.delete(cfg.endpoint + `contacts/${contactid}`, {
         headers: {
-            Authentication: cfg['api-key']
+            Authentication: key
         }
     }).then(result => {
         resolve(result.data)
     }).catch(err => reject(false))
 })
 
-const GetContacts = async (aliasid, page_id) => new Promise(async (resolve, reject) => {
-    await axios.get(cfg.endpoint + `aliases/${aliasid}/contacts?page_id=${page_id}`, {
+const GetContacts = async (key, aliasid, pageId) => new Promise(async (resolve, reject) => {
+    await axios.get(cfg.endpoint + `aliases/${aliasid}/contacts?page_id=${pageId}`, {
         headers: {
-            Authentication: cfg['api-key']
+            Authentication: key
         }
     }).then(result => {
         resolve(result.data)
